@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include "kernel/types.h"
+#include "user.h"
 #define MSGSIZE 16
 
 char* ping = "ping";
