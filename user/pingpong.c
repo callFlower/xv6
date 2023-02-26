@@ -1,36 +1,66 @@
-#include "kernel/types.h"
+#include "../kernel/types.h"
 #include "user.h"
-#define MSGSIZE 16
 
-char* ping = "ping";
-char* pong = "pong";
+#define RD 0 //pipe的read端
+#define WR 1 //pipe的write端
 
-int main(){
-    // array used to receive the bytes
-    char inbuf[MSGSIZE];
-    // fd->file descriptor
-    int fd[2];
-    // int pipe(int fds[2]);
-    pipe(fd);
-    // create a child
+int main(int argc, char const *argv[]) {
+    char buf = 'P'; //用于传送的字节
+
+    int fd_c2p[2]; //子进程->父进程
+    int fd_p2c[2]; //父进程->子进程
+    pipe(fd_c2p);
+    pipe(fd_p2c);
+
     int pid = fork();
-    // parent
-    if(pid>0){
-        // printf("我恁爹\n");
-        // write to the pipe
-        write(fd[1],ping,MSGSIZE);
-        // wait for the quit of child progress
-        wait(NULL);
-        // read the message from the pipe to array
-        read(fd[0], inbuf, MSGSIZE);
-        printf("%d: received %s\n", getpid(),inbuf);
-    }else{
-        // printf("我恁儿\n");
-        // read the message from the pipe to array
-        read(fd[0], inbuf, MSGSIZE);
-        printf("%d: received %s\n", getpid(),inbuf);
-        // write to the pipe
-        write(fd[1],pong,MSGSIZE);
+    int exit_status = 0;
+
+    if (pid < 0) {
+        fprintf(2, "fork() error!\n");
+        close(fd_c2p[RD]);
+        close(fd_c2p[WR]);
+        close(fd_p2c[RD]);
+        close(fd_p2c[WR]);
+        exit(1);
+    } else if (pid == 0) { //子进程
+        close(fd_p2c[WR]);
+        close(fd_c2p[RD]);
+
+        if (read(fd_p2c[RD], &buf, sizeof(char)) != sizeof(char)) {
+            fprintf(2, "child read() error!\n");
+            exit_status = 1; //标记出错
+        } else {
+            fprintf(1, "%d: received ping\n", getpid());
+        }
+
+        if (write(fd_c2p[WR], &buf, sizeof(char)) != sizeof(char)) {
+            fprintf(2, "child write() error!\n");
+            exit_status = 1;
+        }
+
+        close(fd_p2c[RD]);
+        close(fd_c2p[WR]);
+
+        exit(exit_status);
+    } else { //父进程
+        close(fd_p2c[RD]);
+        close(fd_c2p[WR]);
+
+        if (write(fd_p2c[WR], &buf, sizeof(char)) != sizeof(char)) {
+            fprintf(2, "parent write() error!\n");
+            exit_status = 1;
+        }
+
+        if (read(fd_c2p[RD], &buf, sizeof(char)) != sizeof(char)) {
+            fprintf(2, "parent read() error!\n");
+            exit_status = 1; //标记出错
+        } else {
+            fprintf(1, "%d: received pong\n", getpid());
+        }
+
+        close(fd_p2c[WR]);
+        close(fd_c2p[RD]);
+
+        exit(exit_status);
     }
-    return 0;
 }
