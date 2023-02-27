@@ -3,7 +3,7 @@
 #include "user.h"
 #include "../kernel/fs.h"
 
-/* In ls.c file, . means current path */
+/* In ls.c file . means current path */
 
 //
 char*
@@ -73,7 +73,7 @@ ls(char *path)
                     continue;
                 }
                 // printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
-                printf("buf: %s, fmtname(buf):%s %d %d %l\n", buf,path,fmtname(buf), st.type, st.ino, st.size);
+                printf("buf: %s, fmtname(buf):%s %d %d %l\n", buf,fmtname(buf), st.type, st.ino, st.size);
             }
             break;
     }
