@@ -43,7 +43,7 @@ void
 find(char* path, char* target)
 {
     // test why bug happen
-    //  printf("path: %s; target: %s\n", path,target);
+    printf("path: %s; target: %s\n", path,target);
 
     // construct pipe
     char buf[512], *p;
