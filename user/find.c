@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
 {
     if(argc == 1){
         printf("usage: find [path] [target]\n");
+        exit(0);
     }
     // find needs 2 parameters, 1-file path; 2-target. eg: find . a
     if(argc == 2){
@@ -98,6 +99,7 @@ int main(int argc, char *argv[])
     }
     if(argc == 3){
         find(argv[1],argv[2]);
+        exit(0);
     }
     exit(0);
 }
