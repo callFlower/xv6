@@ -25,6 +25,19 @@ fmtname(char *path)
     return buf;
 }
 
+// whether it can be recursive
+int canRecursive(char* path){
+    char *buf = fmtname(path);
+    if(buf[0]=='.' && buf[1]==0){
+        // mean no recursive
+        return 1;
+    }
+    if(buf[0]=='.' && buf[1]=='.' && buf[2]==0){
+        return 1;
+    }
+    // other situations can recursive
+    return 0;
+}
 
 void
 find(char* path, char* target)
@@ -49,11 +62,11 @@ find(char* path, char* target)
         close(fd);
         return;
     }
-//    // we need to make a judgement about whether the path equals to the target or not
-//    if(strcmp(path,target)==0){
-//        // if they are the same, we print the path to the console
-//        printf("%s\n", path);
-//    }
+    // we need to make a judgement about whether the path equals to the target or not
+    if(strcmp(fmtname(path),target)==0){
+        // if they are the same, we print the path to the console
+        printf("%s\n", path);
+    }
     // make a judgement to st, whether it's a file or a folder
     switch(st.type){
         // only file
@@ -78,12 +91,15 @@ find(char* path, char* target)
                     printf("ls: cannot stat %s\n", buf);
                     continue;
                 }
-                if(strcmp(fmtname(buf),target)==0){
-                    // if they are the same, we print the path to the console
-                    printf("%s\n", buf);
-                }
+//                if(strcmp(fmtname(buf),target)==0){
+//                    // if they are the same, we print the path to the console
+//                    printf("%s\n", buf);
+//                }
                 // printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
                 // printf("buf: %s, fmtname(buf):%s %d %d %l\n", buf,fmtname(buf), st.type, st.ino, st.size);
+                if(canRecursive(buf) == 0){
+                    find(buf,target);
+                }
             }
             break;
     }
