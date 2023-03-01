@@ -21,7 +21,7 @@ fmtname(char *path)
     if(strlen(p) >= DIRSIZ)
         return p;
     memmove(buf, p, strlen(p));
-    memset(buf+strlen(p), ' ', DIRSIZ-strlen(p));
+    memset(buf+strlen(p), 0, DIRSIZ-strlen(p));
     return buf;
 }
 
@@ -50,7 +50,7 @@ find(char* path, char* target)
         return;
     }
     // we need to make a judgement about whether the path equals to the target or not
-    if(strcmp(path,target)==0){
+    if(strcmp(fmtname(path),target)==0){
         // if they are the same, we print the path to the console
         printf("%s\n", path);
     }
