@@ -25,9 +25,13 @@ fmtname(char *path)
     return buf;
 }
 
+
 void
-ls(char *path)
+find(char* path, char* target)
 {
+    // test why bug happen
+    printf("path: %s; target: %s\n", path,target);
+
     // construct pipe
     char buf[512], *p;
     int fd;
@@ -45,14 +49,15 @@ ls(char *path)
         close(fd);
         return;
     }
+    // we need to make a judgement about whether the path equals to the target or not
+    if(strcmp(path,target)==0){
+        // if they are the same, we print the path to the console
+        printf("%s\n", path);
+    }
     // make a judgement to st, whether it's a file or a folder
     switch(st.type){
         // only file
         case T_FILE:
-            // print directly
-            // printf("%s %d %d %l\n", fmtname(path), st.type, st.ino, st.size);
-            // test fmtname function, see what have changed
-            printf("path: %s, fmtname(path):%s %d %d %l\n", path,fmtname(path), st.type, st.ino, st.size);
             break;
 
         case T_DIR:
@@ -63,6 +68,7 @@ ls(char *path)
             strcpy(buf, path);
             p = buf+strlen(buf);
             *p++ = '/';
+            // inspect all the file
             while(read(fd, &de, sizeof(de)) == sizeof(de)){
                 if(de.inum == 0)
                     continue;
@@ -72,8 +78,8 @@ ls(char *path)
                     printf("ls: cannot stat %s\n", buf);
                     continue;
                 }
-                // printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
-                printf("buf: %s, fmtname(buf):%s %d %d %l\n", buf,fmtname(buf), st.type, st.ino, st.size);
+                printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
+                // printf("buf: %s, fmtname(buf):%s %d %d %l\n", buf,fmtname(buf), st.type, st.ino, st.size);
             }
             break;
     }
@@ -83,14 +89,16 @@ ls(char *path)
 int main(int argc, char *argv[])
 {
     int i;
-    // receiving the parameter. eg: ls a: ls-first, a-second
-    // if only ls, then ls .
-    if(argc < 2){
-        ls(".");
+    if(argc == 1){
+        printf("usage: find [path] [target]\n");
+    }
+    // find needs 2 parameters, 1-file path; 2-target. eg: find . a
+    if(argc == 2){
+        find(".",argv[1]);
         exit(0);
     }
-    // if is not, looping read parameter and execute. eg: ls a b
-    for(i=1; i<argc; i++)
-        ls(argv[i]);
+    if(argc == 3){
+        find(argv[1],argv[2]);
+    }
     exit(0);
 }
