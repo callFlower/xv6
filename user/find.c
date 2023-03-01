@@ -30,7 +30,7 @@ void
 find(char* path, char* target)
 {
     // test why bug happen
-    printf("path: %s; target: %s\n", path,target);
+    //  printf("path: %s; target: %s\n", path,target);
 
     // construct pipe
     char buf[512], *p;
@@ -49,11 +49,11 @@ find(char* path, char* target)
         close(fd);
         return;
     }
-    // we need to make a judgement about whether the path equals to the target or not
-    if(strcmp(fmtname(path),target)==0){
-        // if they are the same, we print the path to the console
-        printf("%s\n", path);
-    }
+//    // we need to make a judgement about whether the path equals to the target or not
+//    if(strcmp(path,target)==0){
+//        // if they are the same, we print the path to the console
+//        printf("%s\n", path);
+//    }
     // make a judgement to st, whether it's a file or a folder
     switch(st.type){
         // only file
@@ -78,7 +78,7 @@ find(char* path, char* target)
                     printf("ls: cannot stat %s\n", buf);
                     continue;
                 }
-                if(strcmp(buf,target)==0){
+                if(strcmp(fmtname(buf),target)==0){
                     // if they are the same, we print the path to the console
                     printf("%s\n", buf);
                 }
