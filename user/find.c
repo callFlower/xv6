@@ -78,7 +78,11 @@ find(char* path, char* target)
                     printf("ls: cannot stat %s\n", buf);
                     continue;
                 }
-                printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
+                if(strcmp(buf,target)==0){
+                    // if they are the same, we print the path to the console
+                    printf("%s\n", buf);
+                }
+                // printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
                 // printf("buf: %s, fmtname(buf):%s %d %d %l\n", buf,fmtname(buf), st.type, st.ino, st.size);
             }
             break;
