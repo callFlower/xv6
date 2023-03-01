@@ -88,7 +88,6 @@ find(char* path, char* target)
 
 int main(int argc, char *argv[])
 {
-    int i;
     if(argc == 1){
         printf("usage: find [path] [target]\n");
     }
