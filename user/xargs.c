@@ -9,7 +9,7 @@ int main(int argc, char* argv[]){
     // echo hello too | xargs echo bye
     // first step--get the input hello too, which is previous command arguments
     char buf[MSGSIZE];
-    read(0,buf,MSGSIZE);
+    read(1,buf,MSGSIZE);
     printf("what we got in standard input: %s", buf);
     exit(0);
 }
