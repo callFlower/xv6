@@ -11,7 +11,7 @@ int main(int argc, char* argv[]){
     char buf[MSGSIZE];
     read(0,buf,MSGSIZE);
     printf("what we got in standard input: %s", buf);
-
+    return 0;
 }
 
 
