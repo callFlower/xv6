@@ -39,6 +39,7 @@ int main(int argc, char* argv[]){
                 wait(0);
             }
         }else{
+            giaoargv[giaoargc++] = p;
             p = p+1;
         }
     }
