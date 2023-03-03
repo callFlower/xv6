@@ -38,9 +38,10 @@ int main(int argc, char* argv[]){
                 p = &buf[i+1];
                 wait(0);
             }
+        }else{
+            p = p+1;
         }
     }
-    wait(0);
     // third step--use exec to execute the command
     exit(0);
 }
