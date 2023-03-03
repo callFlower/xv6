@@ -14,9 +14,10 @@ int main(int argc, char* argv[]){
     read(0,buf,MSGSIZE);
 
     // second step--get the xargs parameter
-    char* giaoargv[MSGSIZE];
+    char* giaoargv[MAXARG];
     int giaoargc = 0;
     // put the argv parameters first
+    // since we don't need xargs, only want the command after, so start from i=1
     for (int i = 1; i < argc; ++i) {
         giaoargv[giaoargc] = argv[i];
         giaoargc++;
@@ -35,6 +36,7 @@ int main(int argc, char* argv[]){
                 exit(0);
             }else{
                 p = &buf[i+1];
+                wait(0);
             }
         }
     }
