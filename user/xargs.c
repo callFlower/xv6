@@ -12,11 +12,11 @@ int main(int argc, char* argv[]){
     char buf[MSGSIZE];
     // 1--stuck, why?? 0--right
     read(0,buf,MSGSIZE);
-    printf("what we got in standard input: %s", buf);
+    printf("what we got in standard input: %s\n", buf);
 
     // second step--get the xargs parameter
     for (int i = 0; i <argc; ++i) {
-        printf("xargs parameter is argv[%d]: %s",i,argv[i]);
+        printf("xargs parameter is argv[%d]: %s\n",i,argv[i]);
     }
 
 
