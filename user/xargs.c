@@ -7,10 +7,19 @@
 
 int main(int argc, char* argv[]){
     // echo hello too | xargs echo bye
+
     // first step--get the input hello too, which is previous command arguments
     char buf[MSGSIZE];
-    read(1,buf,MSGSIZE);
+    // 1--stuck, why?? 0--right
+    read(0,buf,MSGSIZE);
     printf("what we got in standard input: %s", buf);
+
+    // second step--get the xargs parameter
+    for (int i = 0; i <argc; ++i) {
+        printf("xargs parameter is argv[%d]: %s",i,argv[i]);
+    }
+
+
     exit(0);
 }
 
