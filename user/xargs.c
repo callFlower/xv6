@@ -29,7 +29,8 @@ int main(int argc, char* argv[]){
         if(buf[i] == '\n'){
             int pid = fork();
             if(pid==0){
-                buf[i]=0;
+                // joint the parameters
+                buf[i]='\0';
                 giaoargv[giaoargc++] = p;
                 giaoargv[giaoargc++] = 0;
                 exec(giaoargv[1],giaoargv);
@@ -40,6 +41,7 @@ int main(int argc, char* argv[]){
             }
         }
     }
+    wait(0);
     // third step--use exec to execute the command
     exit(0);
 }
