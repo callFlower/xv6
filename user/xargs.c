@@ -33,7 +33,7 @@ int main(int argc, char* argv[]){
                 buf[i]='\0';
                 giaoargv[giaoargc++] = p;
                 giaoargv[giaoargc++] = '\0';
-                exec(giaoargv[1],giaoargv);
+                exec(giaoargv[0],giaoargv);
             }else{
                 p = &buf[i+1];
                 wait(0);
