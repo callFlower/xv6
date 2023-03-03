@@ -12,13 +12,12 @@ int main(int argc, char* argv[]){
     char buf[MSGSIZE];
     // 1--stuck, why?? 0--right
     read(0,buf,MSGSIZE);
-    printf("what we got in standard input: %s\n", buf);
 
     // second step--get the xargs parameter
     char* giaoargv[MSGSIZE];
     int giaoargc = 0;
     // put the argv parameters first
-    for (int i = 0; i < argc; ++i) {
+    for (int i = 1; i < argc; ++i) {
         giaoargv[giaoargc] = argv[i];
         giaoargc++;
     }
